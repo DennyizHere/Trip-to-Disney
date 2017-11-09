@@ -35,5 +35,5 @@ function fastTimes() {
     });
 }
 // 34 is Pirates
-fastTimes();
 flash("is this working?");
+fastTimes();
