@@ -1,13 +1,13 @@
 var Themeparks = require('themeparks');
 
 var disneyland = new Themeparks.Parks.DisneylandResortMagicKingdom();
-var rideList = [2,3,17,26,35,39,40,41];
+var rideList = [2,3,17,20,26,35,39,41];
 
-function getThemFastPasses() {
+function waitTimes() {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
-            if (ride.fastPass && ride.status == 'Operating' || i == 35) {
-                console.log(ride.name + ": " + ride.waitTime + " minutes wait. Index: " + i);
+            if (ride.fastPass || i == 35) {
+                console.log(ride.name + ";" + ride.waitTime);
             }
         }
     });
@@ -16,24 +16,28 @@ function getThemFastPasses() {
 function fastTimes() {
     var d = new Date();
     var timeString = new String();
+    var currentTime = d.getHours() + ":" + d.getMinutes();
     var minutes = d.getMinutes() - (d.getMinutes() % 5);
     if (minutes == '0') minutes = '00';
     timeString = (d.getHours() + 2) + ":" + minutes;
     var returnString = new String();
 
-    disneyland.GetWaitTimes().then(function (rides) {
+
+    disneyland.GetWaitTimes().then(function (rides,name) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass && ride.active) {
                 if (ride.fastPassReturnTime.startTime <= timeString) {
-                    flash("If you get a fastpass at " + ride.name + ", you can get a new fastpass at: " + ride.fastPassReturnTime.startTime);
+                    console.log(currentTime + ";" + ride.name + ";" + ride.fastPassReturnTime.startTime);
                 }
                 else {
-                    flash("If you get a fastpass at " + ride.name + ", you can get a new fastpass at: " + timeString);
+                    console.log(currentTime + ";" + ride.name + ";" + timeString);
                 }
+            }
+            if (ride.fastPass && !ride.active) {
+                console.log(currentTime + ";" + ride.name + ";" + "closed");
             }
         }
     });
 }
-// 34 is Pirates
-flash("is this working?");
 fastTimes();
+waitTimes();
