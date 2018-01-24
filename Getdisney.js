@@ -17,8 +17,9 @@ function fastTimes() {
     var d = new Date();
     var timeString = new String();
     var currentTime = d.getHours() + ":" + d.getMinutes();
+    if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
     var minutes = d.getMinutes() - (d.getMinutes() % 5);
-    if (minutes == '0') minutes = '00';
+    if (minutes < '10') minutes = '0' + minutes;
     timeString = (d.getHours() + 2) + ":" + minutes;
     var returnString = new String();
 
