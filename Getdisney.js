@@ -1,23 +1,19 @@
 var Themeparks = require('themeparks');
-
 var disneyland = new Themeparks.Parks.DisneylandResortMagicKingdom();
-var rideList = [2,3,17,20,26,35,39,41];
 
-function waitTimes() {
+function waitTimes(currentTime) {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass || i == 35) {
-                console.log(ride.name + ";" + ride.waitTime);
+                console.log(currentTime + ";" + ride.name + ";" + ride.waitTime);
             }
         }
     });
 }
 
-function fastTimes() {
+function fastTimes(currentTime) {
     var d = new Date();
     var timeString = new String();
-    var currentTime = d.getHours() + ":" + d.getMinutes();
-    if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
     var minutes = d.getMinutes() - (d.getMinutes() % 5);
     if (minutes < '10') minutes = '0' + minutes;
     timeString = (d.getHours() + 2) + ":" + minutes;
@@ -40,5 +36,9 @@ function fastTimes() {
         }
     });
 }
-fastTimes();
-waitTimes();
+var d = new Date();
+var currentTime = d.getHours() + ":" + d.getMinutes();
+if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
+
+fastTimes(currentTime);
+waitTimes(currentTime);
