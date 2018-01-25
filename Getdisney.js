@@ -5,7 +5,7 @@ function waitTimes(currentTime) {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass || i == 35) {
-                console.log(currentTime + ";" + ride.name + ";" + ride.waitTime);
+                console.log("wait;" + currentTime + ";" + ride.name + ";" + ride.waitTime);
             }
         }
     });
@@ -24,10 +24,10 @@ function fastTimes(currentTime) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass && ride.active) {
                 if (ride.fastPassReturnTime.startTime <= timeString) {
-                    console.log(currentTime + ";" + ride.name + ";" + ride.fastPassReturnTime.startTime);
+                    console.log("fast;" + currentTime + ";" + ride.name + ";" + ride.fastPassReturnTime.startTime);
                 }
                 else {
-                    console.log(currentTime + ";" + ride.name + ";" + timeString);
+                    console.log("fast;" + currentTime + ";" + ride.name + ";" + timeString);
                 }
             }
             if (ride.fastPass && !ride.active) {
