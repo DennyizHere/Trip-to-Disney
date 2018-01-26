@@ -20,7 +20,7 @@ function fastTimes(currentTime) {
     var returnString = new String();
 
 
-    disneyland.GetWaitTimes().then(function (rides,name) {
+    disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass && ride.active) {
                 if (ride.fastPassReturnTime.startTime <= timeString) {
