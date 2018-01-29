@@ -49,6 +49,7 @@ function getOpeningTime (date) {
                 var close = time.closingTime;
                 close = close.substring(11,16);
                 console.log(date + " Open from " + open + " until " + close);
+                break;
             }
         }
     }, console.error);
