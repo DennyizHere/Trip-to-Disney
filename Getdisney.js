@@ -4,8 +4,11 @@ var disneyland = new Themeparks.Parks.DisneylandResortMagicKingdom();
 function waitTimes(currentTime, date) {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
-            if (ride.fastPass || i == 35) {
+            if (ride.fastPass || i == 35 && ride.active) {
                 console.log("wait;" + date + ";" + currentTime + ";" + ride.name + ";" + ride.waitTime);
+            }
+            else if (ride.fastPass || i == 35 && !ride.active) {
+                console.log("wait;" + date + ";" + currentTime + ";" + ride.name + ";" + "closed");
             }
         }
     });
@@ -36,10 +39,23 @@ function fastTimes(currentTime, date) {
         }
     });
 }
+
+function getOpeningTime (date) {
+    disneyland.GetOpeningTimes().then(function (times) {
+        for (var i = 0, time; time = times[i++];) {
+            if (time.type == "Operating" && time.date == date) {
+                console.log(date + "Open from " + time.openingTime + " until " + time.closingTime);
+            }
+        }
+    }, console.error);
+}
+
 var d = new Date();
-var date = (d.getMonth() + 1) + "/" + d.getDate();
+var date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+if ((d.getMonth() + 1) < 10) date = d.getFullYear() + "-" + "0" + (d.getMonth() + 1) + "-" + d.getDate();
 var currentTime = d.getHours() + ":" + d.getMinutes();
 if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
 
 fastTimes(currentTime, date);
 waitTimes(currentTime, date);
+getOpeningTime(date);
