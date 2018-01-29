@@ -44,7 +44,11 @@ function getOpeningTime (date) {
     disneyland.GetOpeningTimes().then(function (times) {
         for (var i = 0, time; time = times[i++];) {
             if (time.type == "Operating" && time.date == date) {
-                console.log(date + "Open from " + time.openingTime + " until " + time.closingTime);
+                var open = time.openingTime;
+                open = open.substring(11,16);
+                var close = time.closingTime;
+                close = close.substring(11,16);
+                console.log(date + " Open from " + open + " until " + close);
             }
         }
     }, console.error);
