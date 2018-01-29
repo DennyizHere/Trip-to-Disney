@@ -4,10 +4,10 @@ var disneyland = new Themeparks.Parks.DisneylandResortMagicKingdom();
 function waitTimes(currentTime, date) {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
-            if (ride.fastPass || i == 35 && ride.active) {
+            if ((ride.fastPass || i == 35) && ride.active) {
                 console.log("wait;" + date + ";" + currentTime + ";" + ride.name + ";" + ride.waitTime);
             }
-            else if (ride.fastPass || i == 35 && !ride.active) {
+            else if ((ride.fastPass || i == 35) && !ride.active) {
                 console.log("wait;" + date + ";" + currentTime + ";" + ride.name + ";" + "closed");
             }
         }
