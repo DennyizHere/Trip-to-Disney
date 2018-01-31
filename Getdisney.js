@@ -26,6 +26,10 @@ function fastTimes(currentTime, date) {
     disneyland.GetWaitTimes().then(function (rides) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass && ride.active) {
+                if (ride.fastPassReturnTime == null) {
+                    console.log("fast;" + date + ";" + currentTime + ";" + ride.name + ";" + "no more fastpasses");
+                    continue;
+                }
                 if (ride.fastPassReturnTime.startTime <= timeString) {
                     console.log("fast;" + date + ";" + currentTime + ";" + ride.name + ";" + ride.fastPassReturnTime.startTime);
                 }
@@ -40,19 +44,40 @@ function fastTimes(currentTime, date) {
     });
 }
 
-function getOpeningTime (date) {
-    disneyland.GetOpeningTimes().then(function (times) {
+function getOpeningTime (currentTime, date) {
+    var open;
+
+    var state = disneyland.GetOpeningTimes().then(function (times, state) {
         for (var i = 0, time; time = times[i++];) {
             if (time.type == "Operating" && time.date == date) {
-                var open = time.openingTime;
+                open = time.openingTime;
                 open = open.substring(11,16);
-                var close = time.closingTime;
-                close = close.substring(11,16);
-                console.log(date + " Open from " + open + " until " + close);
-                break;
+                if (currentTime >= open) {
+                    state = true;
+                }
+                state = false;
             }
         }
     }, console.error);
+    return state;
+}
+
+function getClosingTime (currentTime, date) {
+    var close;
+
+    var state = disneyland.GetOpeningTimes().then(function (times, state) {
+        for (var i = 0, time; time = times[i++];) {
+            if (time.type == "Operating" && time.date == date) {
+                close = time.closingTime;
+                close = close.substring(11,16);
+                if (currentTime <= close) {
+                    state = true;
+                }
+                state = false;
+            }
+        }
+    }, console.error);
+    return state;
 }
 
 var d = new Date();
@@ -61,6 +86,8 @@ if ((d.getMonth() + 1) < 10) date = d.getFullYear() + "-" + "0" + (d.getMonth() 
 var currentTime = d.getHours() + ":" + d.getMinutes();
 if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
 
-fastTimes(currentTime, date);
-waitTimes(currentTime, date);
-getOpeningTime(date);
+console.log(currentTime);
+if (getOpeningTime(currentTime, date) && getClosingTime(currentTime, date)) {
+    fastTimes(currentTime, date);
+    waitTimes(currentTime, date);
+}
