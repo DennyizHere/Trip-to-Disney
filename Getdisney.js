@@ -55,7 +55,9 @@ function getOpeningTime (currentTime, date) {
                 if (currentTime >= open) {
                     state = true;
                 }
-                state = false;
+                else {
+                    state = false;
+                }
             }
         }
     }, console.error);
@@ -73,7 +75,9 @@ function getClosingTime (currentTime, date) {
                 if (currentTime <= close) {
                     state = true;
                 }
-                state = false;
+                else {
+                    state = false;
+                }
             }
         }
     }, console.error);
