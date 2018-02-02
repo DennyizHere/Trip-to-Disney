@@ -27,7 +27,7 @@ function fastTimes(currentTime, date) {
         for (var i = 0, ride; ride = rides[i++];) {
             if (ride.fastPass && ride.active) {
                 if (ride.fastPassReturnTime == null) {
-                    console.log("fast;" + date + ";" + currentTime + ";" + ride.name + ";" + "no more fastpasses");
+                    console.log("fast;" + date + ";" + currentTime + ";" + ride.name + ";" + "fastpasses ran out");
                     continue;
                 }
                 if (ride.fastPassReturnTime.startTime <= timeString) {
@@ -44,6 +44,7 @@ function fastTimes(currentTime, date) {
     });
 }
 
+//Compare the current time to the opening time of the park and return true or false, based on if the park is open.
 function getOpeningTime (currentTime, date) {
     var open;
 
@@ -64,6 +65,7 @@ function getOpeningTime (currentTime, date) {
     return state;
 }
 
+//Compare the current time to the closing time of the park and return true or false, based on if the park is closed.
 function getClosingTime (currentTime, date) {
     var close;
 
@@ -90,8 +92,12 @@ if ((d.getMonth() + 1) < 10) date = d.getFullYear() + "-" + "0" + (d.getMonth() 
 var currentTime = d.getHours() + ":" + d.getMinutes();
 if (d.getMinutes() < '10') currentTime = d.getHours() + ":0" + d.getMinutes();
 
-console.log(currentTime);
+//Calls the functions to get information for rides
+console.log(date + ";" + currentTime);
 if (getOpeningTime(currentTime, date) && getClosingTime(currentTime, date)) {
     fastTimes(currentTime, date);
     waitTimes(currentTime, date);
+}
+else {
+    console.log("no");
 }
