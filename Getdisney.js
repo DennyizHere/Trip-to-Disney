@@ -11,7 +11,7 @@ function waitTimes(currentTime, date) {
                 console.log("wait;" + date + ";" + currentTime + ";" + ride.name + ";" + "closed");
             }
         }
-    }, console.error);
+    },);
 }
 
 function fastTimes(currentTime, date) {
@@ -41,7 +41,7 @@ function fastTimes(currentTime, date) {
                 console.log("fast;" + date + ";" + currentTime + ";" + ride.name + ";" + "closed");
             }
         }
-    }, console.error);
+    },);
 }
 
 //Compare the current time to the opening time of the park and return true or false, based on if the park is open.
@@ -65,7 +65,7 @@ function getOpeningTime (currentTime, date) {
                 }
             }
         }
-    }, console.error);
+    },);
     return state;
 }
 
@@ -86,7 +86,7 @@ function getClosingTime (currentTime, date) {
                 }
             }
         }
-    }, console.error);
+    },);
     return state;
 }
 
