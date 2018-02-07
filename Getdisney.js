@@ -53,10 +53,14 @@ function getOpeningTime (currentTime, date) {
             if (time.type == "Operating" && time.date == date) {
                 open = time.openingTime;
                 open = open.substring(11,16);
+                console.log(open);
                 if (currentTime >= open) {
                     state = true;
                 }
                 else {
+                    state = false;
+                }
+                if (open == null) {
                     state = false;
                 }
             }
